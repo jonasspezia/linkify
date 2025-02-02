@@ -1,7 +1,9 @@
-import { Providers } from "@/components";
 import { Toaster } from "@/components/ui/sonner";
 import "@/styles/globals.css";
 import { aeonik, cn, generateMetadata, inter } from "@/utils";
+import { AuthProvider } from "@/providers/AuthProvider";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Providers } from "@/components/providers";
 
 export const metadata = generateMetadata();
 
@@ -11,22 +13,33 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en" className="scrollbar">
-            <body
-                className={cn(
-                    "min-h-screen bg-background text-foreground antialiased !font-default overflow-x-hidden",
-                    aeonik.variable,
-                    inter.variable,
-                )}
-            >
-                <Providers>
-                    <Toaster richColors theme="dark" position="top-right" />
-                    {children}
-                </Providers>
+        <html
+            lang="pt-BR"
+            className={cn(
+                "antialiased",
+                aeonik.variable,
+                inter.variable,
+            )}
+            suppressHydrationWarning
+        >
+            <body>
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <AuthProvider>
+                        <Providers>
+                            <Toaster richColors theme="dark" position="top-right" />
+                            {children}
+                        </Providers>
+                    </AuthProvider>
+                </ThemeProvider>
             </body>
         </html>
     );
-};
+}
 
 {/* <div className="absolute top-0 z-[-2] h-screen w-screen bg-background bg-[radial-gradient(100%_50%_at_50%_0%,rgba(168,85,247,0.13)_0,rgba(168,85,247,0)_50%,rgba(168,85,247,0)_100%)]"></div> */ }
 {/* <AnimatedBackground
